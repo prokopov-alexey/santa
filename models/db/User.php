@@ -9,6 +9,7 @@ use Yii;
  *
  * @property int $id
  * @property string|null $name
+ * @property string $sex
  * @property string $public_id
  * @property string $secret_id
  * @property int|null $target_user_id
@@ -19,6 +20,10 @@ use Yii;
  */
 class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 {
+    public const SCENARIO_CREATE = 'create';
+    public const SCENARIO_WISHLIST = 'wishlist';
+    public const SCENARIO_PAIR = 'pair';
+    
     /**
      * {@inheritdoc}
      */
@@ -33,16 +38,16 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     public function rules()
     {
         return [
-            [['public_id', 'secret_id'], 'required'],
-            [['santa_id'], 'integer'],
-            [['wishlist'], 'string'],
-            [['name'], 'string', 'max' => 255],
-            [['public_id', 'secret_id'], 'string', 'max' => 32],
-            [['public_id'], 'unique'],
-            [['secret_id'], 'unique'],
-            [['name'], 'unique'],
-            [['santa_id'], 'unique'],
-            [['santa_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['santa_id' => 'id']],
+            [['public_id', 'secret_id'], 'required', 'on' => self::SCENARIO_CREATE],
+            [['santa_id'], 'integer', 'on' => self::SCENARIO_PAIR],
+            [['wishlist'], 'string', 'on' => self::SCENARIO_WISHLIST],
+            [['name'], 'string', 'max' => 255, 'on' => self::SCENARIO_CREATE],
+            [['public_id', 'secret_id'], 'string', 'max' => 32, 'on' => self::SCENARIO_CREATE],
+            [['public_id'], 'unique', 'on' => self::SCENARIO_CREATE],
+            [['secret_id'], 'unique', 'on' => self::SCENARIO_CREATE],
+            [['name'], 'unique', 'on' => self::SCENARIO_CREATE],
+            [['santa_id'], 'unique', 'on' => self::SCENARIO_PAIR],
+            [['santa_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['santa_id' => 'id'], 'on' => self::SCENARIO_PAIR],
         ];
     }
 
@@ -53,11 +58,12 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
-            'public_id' => 'Public ID',
-            'secret_id' => 'Secret ID',
-            'santa_id' => 'Santa ID',
-            'wishlist' => 'Wishlist',
+            'name' => 'Имя',
+            'sex' => 'Пол',
+            'public_id' => 'Открытый ID',
+            'secret_id' => 'Секретный ключ',
+            'santa_id' => 'ID Санты',
+            'wishlist' => 'Вишлист',
         ];
     }
 
@@ -113,4 +119,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         return $this->getSanta()->exists();
     }
     
+    public function isMan(): bool {
+        return $this->sex == 'M';
+    }
 }

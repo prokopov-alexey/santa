@@ -23,7 +23,7 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout', 'index', 'peer'],
+                'only' => ['logout', 'index', 'peer', 'wishlist'],
                 'rules' => [
                     [
                         'allow' => true,
@@ -73,6 +73,24 @@ class SiteController extends Controller
             ]);
 //        }
     }
+    
+    public function actionWishlist()
+    {
+        /* @var $user User */
+        $user = \Yii::$app->user->identity;
+        
+        $user->setScenario(User::SCENARIO_WISHLIST);
+        
+        if (\Yii::$app->request->isPost) {
+            if ($user->load(\Yii::$app->request->post()) && $user->save()) {
+                $this->goHome();
+            } else {
+                return $this->render('wishlist', ['model' => $user]);
+            }
+        } else {
+            return $this->render('wishlist', ['model' => $user]);
+        }
+    }
 
 
     public function actionPeer($key)
@@ -86,8 +104,6 @@ class SiteController extends Controller
             
             $target = User::findOne(['public_id' => $key]);
 
-            sleep(10);
-            
             $service->peer($user, $target);
             
             $transaction->commit();

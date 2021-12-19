@@ -16,6 +16,7 @@ class m211218_145815_start extends Migration
             CREATE TABLE `user` (
             `id` int(11) NOT NULL AUTO_INCREMENT,
             `name` varchar(255) DEFAULT NULL,
+            `sex` ENUM(\'M\',\'F\') NOT NULL,
             `public_id` char(32) NOT NULL,
             `secret_id` char(32) NOT NULL,
             `santa_id` int(11) DEFAULT NULL,

@@ -46,10 +46,11 @@ class Santa {
         return md5(rand(0, 1000000));
     }
     
-    public function createUser($name) {
+    public function createUser($name, $sex) {
         $user = new User();
         
         $user->name = $name;
+        $user->sex = $sex;
         $user->secret_id = $this->getRandomKey();
         $user->public_id = $this->getRandomKey();
         

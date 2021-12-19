@@ -22,14 +22,14 @@ AppAsset::register($this);
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 </head>
-<body class="d-flex flex-column h-100">
+<body class="d-flex flex-column h-100" style="background-color: #add8e6">
 <?php $this->beginBody() ?>
 
 <header>
 </header>
 
-<main role="main" class="flex-shrink-0">
-    <div class="container">
+<main role="main h-100" class="flex-shrink-0">
+    <div class="container h-100" style="background-color: white">
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>

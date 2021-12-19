@@ -9,10 +9,10 @@ use app\service\Santa;
 
 class UserController extends Controller {
 
-    public function actionCreate($name) {
+    public function actionCreate($name, $sex) {
         $service = new Santa();
         
-        if($service->createUser($name)) {
+        if($service->createUser($name, $sex)) {
             return ExitCode::OK;
         } else {
             return ExitCode::UNSPECIFIED_ERROR;
