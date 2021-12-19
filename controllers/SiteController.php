@@ -93,7 +93,7 @@ class SiteController extends Controller
     }
 
 
-    public function actionPeer($key)
+    public function actionPair($key)
     {
         $transaction = \Yii::$app->db->beginTransaction(Transaction::SERIALIZABLE);
         
@@ -104,7 +104,7 @@ class SiteController extends Controller
             
             $target = User::findOne(['public_id' => $key]);
 
-            $service->peer($user, $target);
+            $service->pair($user, $target);
             
             $transaction->commit();
         } catch (\Exception $e) {
@@ -146,19 +146,6 @@ class SiteController extends Controller
     }
     
 
-    public function actionTest()
-    {
-//        $santa = User::findOne(5);
-//        $target = User::findOne(5);
-        
-        $service = new \app\service\Santa();
-        
-//        $service->makeSanta($santa, $target);
-        $avail = $service->getAllAvailableTargets(\Yii::$app->user->identity);
-        foreach ($avail as $u) {
-            echo $u->name . "; ";
-        }
-    }
     /**
      * Logout action.
      *
@@ -171,31 +158,4 @@ class SiteController extends Controller
         return $this->goHome();
     }
 
-    /**
-     * Displays contact page.
-     *
-     * @return Response|string
-     */
-    public function actionContact()
-    {
-        $model = new ContactForm();
-        if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
-            Yii::$app->session->setFlash('contactFormSubmitted');
-
-            return $this->refresh();
-        }
-        return $this->render('contact', [
-            'model' => $model,
-        ]);
-    }
-
-    /**
-     * Displays about page.
-     *
-     * @return string
-     */
-    public function actionAbout()
-    {
-        return $this->render('about');
-    }
 }

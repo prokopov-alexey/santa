@@ -23,7 +23,7 @@ class Santa {
         return $users;
     }
 
-    public function peer(User $santa, User $target)
+    public function pair(User $santa, User $target)
     {
         if ($santa->id === $target->id) {
             throw InvalidArgumentException('No one can be a Santa for himself!');

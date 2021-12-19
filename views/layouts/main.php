@@ -30,9 +30,6 @@ AppAsset::register($this);
 
 <main role="main h-100" class="flex-shrink-0">
     <div class="container h-100" style="background-color: white">
-        <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]) ?>
         <?= Alert::widget() ?>
         <?= $content ?>
     </div>

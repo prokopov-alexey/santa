@@ -10,19 +10,22 @@ $this->title = 'Тайный Санта';
             <div class="col-md-8 ">
 
                 <?php if ($user->isSanta()) { ?> 
-                <p> Ты <?=$user->isMan() ? 'выбрал' : 'выбрала'?>, кому дарить подарок: <span class="badge-info"><?= $user->getTarget()->one()->name ?></span></p>
-
-
-                    <button class="btn btn-primary" data-toggle="collapse" data-target="#wishlist">Вишлист:</button>
-
-                    <div class="collapse card" id="wishlist"><?= $user->getTarget()->one()->wishlist ?? 'Пока не заполнен' ?> </div>
+                <p> Ты <?=$user->isMan() ? 'выбрал' : 'выбрала'?>, кому дарить подарок:</p>
+                        <div class="card float-left" style="width: 220px; height: 320px; text-align: center; vertical-align: middle; background-color: lightblue">
+                            <h2 style="color: red"><?= $user->getTarget()->one()->name ?></h2>                                
+                        </div>
+                    <p class="clearfix"></p>
+                    <div class="card" id="wishlist">
+                        <h4>Вишлист:</h4>
+                        <?= nl2br($user->getTarget()->one()->wishlist ?? 'Пока не заполнен'); ?> 
+                    </div>
                 <?php } else { ?>
                     <p> Выбери, кому дарить подарок!</p>
                 <?php } ?>
                 <div>
                     <?php foreach ($availableTargets as $target) { ?>
                         <div class="card float-left" style="width: 220px">
-                            <a style="margin: 10px" href="<?= \Yii::$app->urlManager->createUrl(['site/peer', 'key' => $target->public_id]) ?>">
+                            <a style="margin: 10px" href="<?= \Yii::$app->urlManager->createUrl(['site/pair', 'key' => $target->public_id]) ?>">
                                 <img src="img/Somebody.png" alt="?"/>
                             </a>
                         </div>
@@ -41,6 +44,8 @@ $this->title = 'Тайный Санта';
                         <?php } ?>
                     </div>
                 </div>
+                
+                <a class="btn-primary" href="<?= \Yii::$app->urlManager->createUrl(['site/wishlist']) ?>">Твой вишлист</a>
 
             </div>
         </div>

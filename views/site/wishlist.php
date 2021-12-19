@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'enableClientScript' => false,
     ]); ?>
 
-        <?= $form->field($model, 'wishlist')->textarea(['autofocus' => true]) ?>
+        <?= $form->field($model, 'wishlist')->textarea(['autofocus' => true, 'rows' => 20]) ?>
 
         <div class="form-group">
             <div class="offset-lg-1 col-lg-11">
